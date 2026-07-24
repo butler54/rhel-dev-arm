@@ -40,7 +40,7 @@ jobs:
       run: dnf -y install podman buildah skopeo make wget git jq
 
     - name: Checkout repository
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
 
     - name: Access a subscription via activation key
       env:
@@ -57,7 +57,7 @@ jobs:
         echo $auth > $HOME/.docker/config.json
 
     - name: Log in to registry.redhat.io
-      uses: redhat-actions/podman-login@4934294ad0449894bcd1e9f191899d7292469603 # v1
+      uses: redhat-actions/podman-login@50c2d9a331bb67c8fdab99b86455fad05e2e3252 # v2.0
       with:
         username: ${{ secrets.RH_REGISTRY_USER }}
         password: ${{ secrets.RH_REGISTRY_PASSWORD }}
@@ -69,7 +69,7 @@ jobs:
 
     - name: Build Image
       id: build-image
-      uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
+      uses: redhat-actions/buildah-build@27e5954dfd56a621f706827f2de689dc955e8711 # v3.0.1
       with:
         image: ${{ env.IMAGE_REGISTRY }}/${{ env.REGISTRY_USER }}/${{ env.IMAGE }}
         tags: ${{ env.PLATFORM_PAIR }}-${{ github.sha }}
@@ -94,11 +94,11 @@ jobs:
 
     steps:
     - name: Harden runner
-      uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+      uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920 # v2.20.0
       with:
         egress-policy: audit
 
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
       with:
         submodules: true
         fetch-depth: 0
@@ -106,6 +106,6 @@ jobs:
 
     - name: Python Semantic Release
       id: release
-      uses: python-semantic-release/python-semantic-release@350c48fcb3ffcdfd2e0a235206bc2ecea6b69df0 # v10.5.3
+      uses: python-semantic-release/python-semantic-release@39dd2052f2ce8282a5d932c31d58a2ca06d2550e # v10.6.1
       with:
         github_token: ${{ secrets.FG_PAT }}
